@@ -1,0 +1,16 @@
+data/dataset/images/dataset.zip
+models/models/detection/utas/yolov3.weights
+data/dataset/dataset.zip
+data/dataset/images/training_dataset.zip
+data/*
+*.pyc*
+*__pycache__/*
+models/models/*
+*/__MACOSX/*
+*/.DS_Store
+*/.ipynb_checkpoints/*
+*.png
+*.jpg
+*.jpeg
+*.mp4
+*.csv

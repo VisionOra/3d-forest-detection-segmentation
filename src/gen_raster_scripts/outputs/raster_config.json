@@ -1,0 +1,17 @@
+{
+    "raster_layers": [
+        "vertical_density"
+    ],
+    "gridSize": [
+        600,
+        600,
+        1000
+    ],
+    "support_window": [
+        1,
+        1,
+        1
+    ],
+    "normalisation": "cmap_jet",
+    "res": 0.2
+}

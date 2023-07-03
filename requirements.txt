@@ -1,0 +1,23 @@
+cycler==0.10.0
+decorator==4.4.2
+imageio==2.9.0
+joblib==0.14.1
+kiwisolver==1.1.0
+laspy==1.7.0
+matplotlib==3.0.3
+networkx==2.4
+numpy==1.25.0
+opencv-python
+Pillow==7.2.0
+plyfile==0.7.2
+pyparsing==2.4.7
+python-dateutil==2.8.1
+PyWavelets==1.1.1
+# scikit-image==0.15.0
+# scikit-learn==0.22.2.post1
+scipy==1.11.0
+six==1.15.0
+pandas==2.0.2
+# python-pcl==0.3.0a1
+pcl==0.0.0.post1
+pyyaml==5.3.1
