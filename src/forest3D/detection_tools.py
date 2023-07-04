@@ -131,22 +131,20 @@ def boundingBox_to_3dcoords(boxes_, gridSize_, gridRes_, windowSize_, pcdCenter_
     # window size np.array(( x , y )) in pixels (or list)
     # pcd center - x and y coords of center (in meters) of pcd that was used to make raster where bounding boxes were found
     # returns boxes = [ymin xmin ymax xmax] in global 3d coords in the xy plane
-    try:
-        N = np.shape(boxes_)[0] # number of bounding boxes
-        # convert from percentage to pixel coords
-        bb_coord = np.transpose(np.vstack((boxes_[:, 0] * gridSize_[1], boxes_[:, 1] * gridSize_[0], boxes_[:, 2] * gridSize_[1],boxes_[:, 3] * gridSize_[0])))
-        # center in OG
-        bb_coord -= (np.tile(gridSize_[::-1], (N, 2)) / 2)
-        # convert to meters
-        bb_coord *= gridRes_
-        # offset to match raster center with pcd center
-        bb_coord += np.tile(pcdCenter_, (N, 2))
-        # re-order so it is [ymin xmin ymax xmax]
-        bb_coord = bb_coord[:,[1,0,3,2]]
-    except:
-        bb_coord = []
-    return bb_coord
 
+    N = np.shape(boxes_)[0] # number of bounding boxes
+    # convert from percentage to pixel coords
+    bb_coord = np.transpose(np.vstack((boxes_[:, 0] * gridSize_[1], boxes_[:, 1] * gridSize_[0], boxes_[:, 2] * gridSize_[1],boxes_[:, 3] * gridSize_[0])))
+    # center in OG
+    bb_coord -= (np.tile(gridSize_[::-1], (N, 2)) / 2)
+    # convert to meters
+    bb_coord *= gridRes_
+    # offset to match raster center with pcd center
+    bb_coord += np.tile(pcdCenter_, (N, 2))
+    # re-order so it is [ymin xmin ymax xmax]
+    bb_coord = bb_coord[:,[1,0,3,2]]
+
+    return bb_coord
 def label_pcd_from_bbox(pcd,boxes,classes=None, yxyx=False):
     '''
 

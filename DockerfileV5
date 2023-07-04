@@ -51,32 +51,30 @@ RUN apt-get update \
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && bash Miniconda3-latest-Linux-x86_64.sh -b -p /3d_forest/miniconda3 \
     && rm Miniconda3-latest-Linux-x86_64.sh
-
-
+# Yolov5
 # making conda env
 ENV PATH=/3d_forest/miniconda3/bin:$PATH
 RUN conda update -n base -c defaults conda \
-    && conda create -n 3d_forest_35 python=3.5 \
+    && conda create -n 3d_forest python=3.9 \
     && conda clean -ya
 
 
 # Activate conda env
-ENV PATH=/3d_forest/miniconda3/envs/3d_forest_35/bin:$PATH
-RUN echo "source activate 3d_forest_35" > ~/.bashrc
-ENV CONDA_DEFAULT_ENV=3d_forest_35
+ENV PATH=/3d_forest/miniconda3/envs/3d_forest/bin:$PATH
+RUN echo "source activate 3d_forest" > ~/.bashrc
+ENV CONDA_DEFAULT_ENV=3d_forest
 
 
 
-COPY ./requiremenmts_yolov3.txt /3d_forest/requiremenmts_yolov3.txt
-
+COPY ./requirements.txt /3d_forest/requirements.txt
+COPY ./requirements_seg.txt /3d_forest/requirements_seg.txt  
 
 RUN pip install --upgrade pip \
-    && pip install -r /3d_forest/requiremenmts_yolov3.txt \
+    && pip install -r /3d_forest/requirements.txt \
     && pip install jupyter ipykernel \
     && rm -rf /root/.cache/pip
 
-RUN python -m ipykernel install --name 3d_forest_35 
-
+RUN python -m ipykernel install --name 3d_forest 
 
 
 

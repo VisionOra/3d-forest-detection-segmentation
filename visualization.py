@@ -36,6 +36,7 @@ def adding_bb_to_pcd(
     :param boxes_array: np.array Nx4:  [[ymin xmin ymax xmax]] in proportions
     :return: None
     """
+    print("Adding bounding boxes to point cloud", boxes_array)
     for box in boxes_array:
         box_3d = get_3d_box_from_coords(box[1], box[3], box[0], box[2], 0, 15)
         vis.add_geometry(box_3d)
@@ -48,27 +49,31 @@ def read_bbox(path: str) -> np.array:
     :return: np.array Nx4:  [[ymin xmin ymax xmax]] in proportions
     """
     box = np.loadtxt(path)
+
+    print("here are boxes", box)
     return box
 
 
-x1, x2, y1, y2 = 151.38401955, 16.74398851, 158.34157139, 21.40118313
-# box = [2, 10, 4, 15, 0, 2]  # x1, x2, y1, y2, z1, z3
-box_3d = get_3d_box_from_coords(x1, y1, x2, y2, 0, 2)
+# x1, x2, y1, y2 = 151.38401955, 16.74398851, 158.34157139, 21.40118313
+# # box = [2, 10, 4, 15, 0, 2]  # x1, x2, y1, y2, z1, z3
+# box_3d = get_3d_box_from_coords(x1, y1, x2, y2, 0, 2)
 
 pcd = o3d.io.read_point_cloud(
-    "/home/sohaib/Documents/kodifly/3d_forest/forest_3d_app/data/150_2-160_2_slam.pcd"
+    "/home/sohaib/Documents/kodifly/3d_forest/forest_3d_app/data/pcd_files/150_2-160_2_slam.pcd"
 )
 
 bbox_path = (
     "/home/sohaib/Documents/kodifly/3d_forest/forest_3d_app/data/150_2-160_2_slam.txt"
 )
-# Reading BBOX
+# # Reading BBOX
 bbox = read_bbox(bbox_path)
 print(bbox)
-# Reading PCD
+# # Reading PCD
 new_pcd = o3d.geometry.PointCloud()
 new_pcd.points = pcd.points
 
+print("here are pcd Points")
+print(pcd.points)
 # Visualizing
 vis = create_vizualizer()
 vis.clear_geometries()
@@ -83,3 +88,16 @@ vis = adding_bb_to_pcd(bbox, vis)
 vis.poll_events()
 vis.update_renderer()
 vis.run()
+
+
+# new_pcd = o3d.geometry.PointCloud()
+# new_pcd.points = pcd.points
+
+# print("New pcd: ", new_pcd)
+# vis = create_vizualizer()
+# vis.clear_geometries()
+# vis.add_geometry(new_pcd)
+# vis.add_geometry(bbox)
+# vis.poll_events()
+# vis.update_renderer()
+# vis.run()

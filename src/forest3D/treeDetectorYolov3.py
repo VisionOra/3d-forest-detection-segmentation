@@ -8,7 +8,7 @@
 
 # custom libraries
 from forest3D import detection_tools,processLidar
-from forest3D.object_detectors import detectObjects_yolov5 as detectObjects
+from forest3D.object_detectors import detectObjects_yolov3 as detectObjects
 
 # standard libaries
 import numpy as np
@@ -71,25 +71,18 @@ class RasterDetector():
                 raster_stack = np.uint8(raster_stack*255)
 
                 # use object detector to detect trees in raster
-                [img, boxes, classes, scores] = detectObjects(raster_stack)
-                
-                # [img, boxes, classes, scores] = detectObjects(raster_stack)
+                [img, boxes, classes, scores] = detectObjects(raster_stack, addr_weights=os.path.join(detector_addr,'yolov3.weights'),
+                                                              addr_confg=os.path.join(detector_addr,'yolov3.cfg'),MIN_CONFIDENCE=confidence_thresh)
+
                 if np.shape(boxes)[0]:
-                    
-                    print("\n\n\n\n\n\boxes")
-                    print(boxes)
-                    print(boxes.shape)
+
                     # convert raster coordinates of bounding boxes to global x y coordinates
                     bb_coord = detection_tools.boundingBox_to_3dcoords(boxes_=boxes, gridSize_=self.gridSize[0:2], gridRes_=self.res,
                                                                       windowSize_=windowSize, pcdCenter_=centre)
-
-                    with open("../../data/yolov5_150_2-160_2_slam.txt", "w") as f:
+                    with open("../../data/yolov3_150_2-160_2_slam.txt", "w") as f:
                         np.savetxt(f, bb_coord)
-                    print("\n\n\n\n\n\nbb_coord")
-                    print(bb_coord)
-                    print(bb_coord.shape)
                     # aggregate over windows
-                    box_store = np.vstack((box_store, bb_coord))
+                    box_store = np.vstack((box_store, bb_coord[classes == classID, :]))
 
         sys.stdout.write("\n")
         box_store = box_store[1:, :]
