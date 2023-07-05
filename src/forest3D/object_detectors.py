@@ -120,3 +120,50 @@ def detectObjects_yolov3(img,addr_weights,addr_confg,MIN_CONFIDENCE=0.5):
 				classIDs.append(classID)
 
 	return img,np.array(boxes),np.array(classIDs),np.array(confidences)
+
+
+
+import torch
+weights = "/forest_3d_app/yolov5/runs/train/exp7/weights/best.pt"
+
+model = torch.hub.load('ultralytics/yolov5', 'custom', weights)
+def convert_to_percentage(box, total_width, total_height):
+    x, y, w, h = box 
+    x_percent = x / total_width
+    y_percent = y / total_height
+    w_percent = w / total_width
+    h_percent = h / total_height
+
+    return np.asarray([x_percent, y_percent, w_percent, h_percent])
+
+
+def xywh_to_x1y1x3y2(box):
+    centerX, centerY, width, height =box
+    return [centerY-(height/2.0),centerX-(width/2.0),centerY+(height/2.0),centerX+(width/2.0)]
+
+def detectObjects_yolov5(img, addr_weights="",addr_confg="",MIN_CONFIDENCE=0.5):
+    
+    import matplotlib.pyplot as plt
+    import random
+    # plt.imsave(f"/forest_3d_app/3d_forest/forest_3d_app/data/test_images/{int(random.random()*100000)}test.png",img)
+    # plt.imshow(img)
+    # plt.show()
+    results = model(img)
+    list_bbox = [xywh_to_x1y1x3y2(i) for i in np.asarray(results.pandas().xywh[0][["xcenter", "ycenter", "width","height"]].values)]
+    
+    
+    
+    list_conf = np.asarray(results.pandas().xyxy[0]["confidence"].values)
+    list_class = np.asarray(results.pandas().xyxy[0]["name"].values)
+    list_class = [0 for i in list_class]
+    boxes = np.array(list_bbox, np.float64)
+
+
+    image_width, image_height, channel = img.shape
+    percent_boxes = []
+    for i in boxes:
+        
+        percent_boxes.append(convert_to_percentage(i, image_width, image_height))
+    
+	
+	return img,np.asarray(percent_boxes),np.array(list_class),np.array(list_conf)
