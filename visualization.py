@@ -59,7 +59,7 @@ def read_bbox(path: str) -> np.array:
 # box_3d = get_3d_box_from_coords(x1, y1, x2, y2, 0, 2)
 
 pcd = o3d.io.read_point_cloud(
-    "/home/sohaib/Documents/kodifly/3d_forest/forest_3d_app/data/pcd_files/160_2-170_2_slam.pcd"
+    "/home/sohaib/Documents/kodifly/3d_forest/may22_194/169_254_113_214_pcap/stations/425_1-445_1_slam.pcd"
 )
 
 bbox_path = (
@@ -82,11 +82,9 @@ vis.clear_geometries()
 vis.add_geometry(new_pcd)
 
 # Adding BBOX to visualizer
-vis = adding_bb_to_pcd(bbox, vis)
+# vis = adding_bb_to_pcd(bbox, vis)
 
 # Updating and running visualizer
 vis.poll_events()
 vis.update_renderer()
 vis.run()
-
-
