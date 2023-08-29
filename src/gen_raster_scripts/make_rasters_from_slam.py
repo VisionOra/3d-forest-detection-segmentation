@@ -47,7 +47,7 @@ rasterMaker = treeDetector.RasterDetector(**config_dict)
 
 
 # PCD file Path
-pcd_file_path = (
+slams_file_path = (
     "/home/sohaib/Downloads/2023_08_11_02_00_57 (1)/2023_08_11_02_00_57/stations/*/"
 )
 
@@ -61,10 +61,10 @@ raster_images_path = "../../data/dataset/2023_08_11_02_00_57/"
 make_folder_if_not_exists(temp)
 make_folder_if_not_exists(raster_images_path)
 
-for i in glob.glob(pcd_file_path + "*.laz"):
+for i in glob.glob(slams_file_path + "*.laz"):
     # PCD file
     pcd_files_path, file_name = i.rsplit("/", 1)
-    print("Reading File: ", file_name, " From Path: ", pcd_file_path)
+    print("Reading File: ", file_name, " From Path: ", slams_file_path)
     #     pcd_file = read_pcd(pcd_files_path + "/" + file_name)
     #     xyz_data = pcd_file['points'][['x','y','z']].values
     # Laz file
